@@ -1,0 +1,35 @@
+{
+    "name":                 "cubbyhole",
+    "version":              "9.9.9",
+    "description":
+
+        "Asynchronous cubbyholes used to wait for a future value by name.",
+
+    "keywords":
+    [
+                            "queue", "events", "callback", "control", "flow",
+                            "cadence"
+    ],
+    "author":               "Alan Gutierrez <alan@prettyrobots.com>",
+    "homepage":             "https://github.com/bigeasy/cubbyhole",
+    "bugs":                 "https://github.com/bigeasy/cubbyhole/issues",
+    "license":              "MIT",
+    "repository":
+    {
+                            "type": "git",
+                            "url": "http://github.com/bigeasy/cubbyhole.git"
+    },
+    "dependencies":
+    {
+                            "cadence":                      "1.0.x"
+    },
+    "devDependencies":
+    {
+                            "proof":                        "1.2.x"
+    },
+    "main":                 "cubbyhole",
+    "scripts":
+    {
+                            "test": "proof platform win32 && proof test */*.t.js || t/test"
+    }
+}
