@@ -5,7 +5,7 @@ function Cubbyhole () {
     this._signals = new Vivifyer(function () { return new Signal })
 }
 
-Cubbyhole.prototype.get = function (key, callback) {
+Cubbyhole.prototype.wait = function (key, callback) {
     this._signals.get(key).wait(callback)
 }
 
