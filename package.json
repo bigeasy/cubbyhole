@@ -22,7 +22,7 @@
     "dependencies":
     {
                             "cadence":                      "1.0.x",
-                            "signal":                       "1.10.x",
+                            "signal":                       "3.0.x",
                             "vivifyer":                     "0.0.1"
     },
     "devDependencies":
