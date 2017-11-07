@@ -23,7 +23,7 @@
     {
                             "cadence":                      "1.0.x",
                             "signal":                       "3.0.x",
-                            "vivifyer":                     "0.0.1"
+                            "vivifyer":                     "0.0.x"
     },
     "devDependencies":
     {
