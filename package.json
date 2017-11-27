@@ -3,7 +3,7 @@
     "version":              "1.0.0",
     "description":
 
-        "Asynchronous cubbyholes used to wait for a future value by name.",
+      "Asynchronous cubbyholes used to wait for a future value by name.",
 
     "keywords":
     [
