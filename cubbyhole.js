@@ -10,8 +10,8 @@ Cubbyhole.prototype.keys = function() {
 }
 
 Cubbyhole.prototype.get = function (key) {
-    var signal = this._signals.get(key)
-    if (signal.open != null) {
+    var signal = this._signals.map[key]
+    if (signal != null && signal.open != null) {
         return signal.open.slice(1)
     }
     return null
