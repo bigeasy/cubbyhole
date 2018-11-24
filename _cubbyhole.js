@@ -22,8 +22,7 @@ Cubbyhole.prototype.wait = function (key, callback) {
 }
 
 Cubbyhole.prototype.set = function (key) {
-    var vargs = []
-    vargs
+    var vargs = Array.prototype.slice.call(arguments, 1)
     var signal = this._signals.get(key)
     signal.unlatch.apply(signal, vargs)
 }
