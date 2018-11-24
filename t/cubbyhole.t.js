@@ -1,4 +1,4 @@
-require('proof')(5, prove)
+require('proof')(7, prove)
 
 function prove (okay) {
     var Cubbyhole = require('../cubbyhole')
@@ -12,4 +12,11 @@ function prove (okay) {
     })
     okay(cubbyhole.get('x'), null, 'get missing')
     cubbyhole.set('x', null, 1)
+    cubbyhole.wait('y', function (error) {
+        okay(error.message, 'destroyed', 'destroy')
+    })
+    cubbyhole.destroy(new Error('destroyed'))
+    cubbyhole.wait('y', function (error) {
+        okay(error.message, 'destroyed', 'destroyed')
+    })
 }
