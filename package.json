@@ -20,7 +20,7 @@
     },
     "dependencies":
     {
-                            "signal":                       "6.0.x",
+                            "signal":                       "7.0.x",
                             "vivifyer":                     "0.0.x"
     },
     "devDependencies":
