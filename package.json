@@ -1,6 +1,6 @@
 {
     "name":                 "cubbyhole",
-    "version":              "1.4.0",
+    "version":              "1.5.0",
     "description":
 
       "Asynchronous cubbyholes used to wait for a future value by name.",
