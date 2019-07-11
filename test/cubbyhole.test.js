@@ -1,5 +1,5 @@
 describe('cubbyhole', async () => {
-    const Cubbyhole = require('../es6')
+    const Cubbyhole = require('..')
     const assert = require('assert')
     it('can be constructed', () => {
         const cubbyhole = new Cubbyhole

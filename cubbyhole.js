@@ -1,50 +1,61 @@
-var Vivifyer = require('vivifyer')
-var Signal = require('signal')
+const Vivifyer = require('vivifyer')
 
-function Cubbyhole () {
-    this._signals = new Vivifyer(function () { return new Signal })
-    this._terminator = null
-    this.destroyed = false
-}
-
-Cubbyhole.prototype.keys = function() {
-    return Object.keys(this._signals.map)
-}
-
-Cubbyhole.prototype.get = function (key) {
-    var signal = this._signals.map[key]
-    if (signal != null && signal.open != null) {
-        return signal.open.slice(1)
+class Latch {
+    constructor () {
+        this.promise = new Promise((resolve, reject) => {
+            this.resolve = resolve
+            this.reject = reject
+        })
+        this.unlatched = false
     }
-    return null
-}
 
-Cubbyhole.prototype.wait = function (key, callback) {
-    this._signals.get(key).wait(callback)
-    if (this._terminator != null) {
-        var signal = this._signals.get(key)
-        signal.unlatch.apply(signal, this._terminator)
+    unlatch (value) {
+        if (!this.unlatched) {
+            this.unlatched = true
+            if (value instanceof Error) {
+                this.reject.call(null, value)
+            } else {
+                this.resolve.call(null, value)
+            }
+        }
     }
 }
 
-Cubbyhole.prototype.set = function () {
-    var vargs = []
-    vargs.push.apply(vargs, arguments)
-    var signal = this._signals.get(vargs.shift())
-    signal.unlatch.apply(signal, vargs)
-}
+class Cubbyhole {
+    constructor () {
+        this._latches = new Vivifyer(() => new Latch)
+        this._terminator = null
+        this.destroyed = false
+    }
 
-Cubbyhole.prototype.remove = function (key) {
-    delete this._signals.map[key]
-}
+    get keys () {
+        return Object.keys(this._latches.map)
+    }
 
-Cubbyhole.prototype.destroy = function () {
-    this.destroyed = true
-    this._terminator = []
-    this._terminator.push.apply(this._terminator, arguments)
-    for (var key in this._signals.map) {
-        var signal = this._signals.map[key]
-        signal.unlatch.apply(signal, this._terminator)
+    async get(key) {
+        const latch = this._terminator || this._latches.get(key)
+        return await latch.promise
+    }
+
+    set (key, value) {
+        if (!this.destroyed) {
+            this._latches.get(key).unlatch(value)
+        }
+    }
+
+    remove (key) {
+        delete this._latches.map[key]
+    }
+
+    destroy () {
+        const value = arguments.length == 0 ? null : arguments[0]
+        this.destroyed = true
+        this._terminator = new Latch()
+        this._terminator.unlatch(value)
+        for (let key in this._latches.map) {
+            this._latches.map[key].unlatch(value)
+            delete this._latches.map[key]
+        }
     }
 }
 

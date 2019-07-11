@@ -7,7 +7,7 @@
 
     "keywords":
     [
-                            "cadence", "envented", "semaphore"
+                            "async", "semaphore", "map"
     ],
     "author":               "Alan Gutierrez <alan@prettyrobots.com>",
     "homepage":             "https://github.com/bigeasy/cubbyhole",
@@ -20,16 +20,15 @@
     },
     "dependencies":
     {
-                            "signal":                       "7.0.x",
-                            "vivifyer":                     "1.0.x"
+                            "prospective":                  "0.0.x",
+                            "vivifyer":                     "2.0.x"
     },
     "devDependencies":
     {
-                            "proof":                        "7.0.x"
     },
     "main":                 "cubbyhole",
     "scripts":
     {
-                            "test": "proof test test/*.t.js"
+                            "test": "mocha test/*.test.js"
     }
 }
