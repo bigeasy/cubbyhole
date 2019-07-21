@@ -28,6 +28,16 @@ class Cubbyhole {
         this.destroyed = false
     }
 
+    get latched () {
+        const latched = []
+        for (const key in this._latches.map) {
+            if (!this._latches.map[key].unlatched) {
+                latched.push(key)
+            }
+        }
+        return latched
+    }
+
     get keys () {
         return Object.keys(this._latches.map)
     }
