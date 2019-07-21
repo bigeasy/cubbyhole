@@ -43,4 +43,8 @@ describe('cubbyhole', async () => {
         assert.equal(await promise, 2, 'destroyed get')
         assert.equal(await cubbyhole.get('z'), 2, 'get after destroyed')
     })
+    it('can reject cancel when no one awaits the terminal error', () => {
+        const cubbyhole = new Cubbyhole
+        cubbyhole.destroy(new Error)
+    })
 })
