@@ -62,7 +62,7 @@ class Cubbyhole {
         this.destroyed = true
         this._terminator = new Latch()
         this._terminator.unlatch(value)
-        for (let key in this._latches.map) {
+        for (const key in this._latches.map) {
             this._latches.map[key].unlatch(value)
             delete this._latches.map[key]
         }
