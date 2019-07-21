@@ -6,6 +6,7 @@ class Latch {
             this.resolve = resolve
             this.reject = reject
         })
+        this.promise.catch(() => {})
         this.unlatched = false
     }
 
@@ -61,7 +62,6 @@ class Cubbyhole {
         const value = arguments.length == 0 ? null : arguments[0]
         this.destroyed = true
         this._terminator = new Latch()
-        this._terminator.promise.catch(() => {})
         this._terminator.unlatch(value)
         for (const key in this._latches.map) {
             this._latches.map[key].unlatch(value)

@@ -47,4 +47,8 @@ describe('cubbyhole', async () => {
         const cubbyhole = new Cubbyhole
         cubbyhole.destroy(new Error)
     })
+    it('can reject a key when no one awaits the error', () => {
+        const cubbyhole = new Cubbyhole
+        cubbyhole.set('x', new Error)
+    })
 })
