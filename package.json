@@ -30,6 +30,6 @@
     "main":                 "cubbyhole",
     "scripts":
     {
-                            "test": "proof test/*.test.js"
+                            "test": "proof test/*.t.js"
     }
 }
