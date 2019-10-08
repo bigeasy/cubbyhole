@@ -1,25 +1,30 @@
-describe('cubbyhole', async () => {
+require('proof')(13, async (okay) => {
     const Cubbyhole = require('..')
-    const assert = require('assert')
-    it('can be constructed', () => {
+    {
         const cubbyhole = new Cubbyhole
         cubbyhole.destroy()
-    })
-    it('can get a value', async () => {
+        okay('constructed')
+    }
+    {
         const cubbyhole = new Cubbyhole
         const got = cubbyhole.get('x')
         cubbyhole.set('x', 1)
-        assert.equal(await got, 1, 'got')
-        assert.deepStrictEqual(cubbyhole.keys, [ 'x' ], 'keys')
-    })
-    it('can remove a key', async () => {
+        okay({
+            got: await got,
+            keys: cubbyhole.keys
+        }, {
+            got: 1,
+            keys: [ 'x' ]
+        }, 'get a value')
+    }
+    {
         const cubbyhole = new Cubbyhole
         cubbyhole.set('x', 1)
-        assert.deepStrictEqual(cubbyhole.keys, [ 'x' ], 'keys')
+        okay(cubbyhole.keys, [ 'x' ], 'keys before remove')
         cubbyhole.remove('x')
-        assert.deepStrictEqual(cubbyhole.keys, [], 'removed')
-    })
-    it('can reject', async () => {
+        okay(cubbyhole.keys, [], 'keys after removed')
+    }
+    {
         const test = []
         const cubbyhole = new Cubbyhole
         cubbyhole.set('x', new Error('reject'))
@@ -28,27 +33,29 @@ describe('cubbyhole', async () => {
         } catch (error) {
             test.push(error.message)
         }
-        assert.deepStrictEqual(test, [ 'reject' ], 'rejected')
-    })
-    it('can be destroyed', async () => {
+        okay(test, [ 'reject' ], 'rejected')
+    }
+    {
         const cubbyhole = new Cubbyhole
         cubbyhole.set('x', 1)
-        assert.deepStrictEqual(cubbyhole.keys, [ 'x' ], 'keys')
+        okay(cubbyhole.keys, [ 'x' ], 'keys before destroyed')
         const promise = cubbyhole.get('y')
-        assert.deepStrictEqual(cubbyhole.latched, [ 'y' ], 'latched')
+        okay(cubbyhole.latched, [ 'y' ], 'latched before destroyed')
         cubbyhole.destroy(2)
         cubbyhole.set('x', 1)
-        assert.deepStrictEqual(cubbyhole.latched, [], 'unlatched')
-        assert.deepStrictEqual(cubbyhole.keys, [], 'removed')
-        assert.equal(await promise, 2, 'destroyed get')
-        assert.equal(await cubbyhole.get('z'), 2, 'get after destroyed')
-    })
-    it('can reject cancel when no one awaits the terminal error', () => {
+        okay(cubbyhole.latched, [], 'latched after destroyed')
+        okay(cubbyhole.keys, [], 'keys after destroyed')
+        okay(await promise, 2, 'get when destroyed resolves to destruction value')
+        okay(await cubbyhole.get('z'), 2, 'get after destroyed resolve to destruction value')
+    }
+    {
         const cubbyhole = new Cubbyhole
         cubbyhole.destroy(new Error)
-    })
-    it('can reject a key when no one awaits the error', () => {
+        okay('reject cancel when no one awaits the terminal error')
+    }
+    {
         const cubbyhole = new Cubbyhole
         cubbyhole.set('x', new Error)
-    })
+        okay('reject a key when no one awaits the error')
+    }
 })
