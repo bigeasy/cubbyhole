@@ -20,8 +20,8 @@
     },
     "dependencies":
     {
-                            "prospective":                  "0.1.0-alpha.1",
-                            "vivifyer":                     "2.0.x"
+                            "prospective":                  "^0.1.0-alpha.1",
+                            "vivifyer":                     "^2.0.1"
     },
     "devDependencies":
     {
