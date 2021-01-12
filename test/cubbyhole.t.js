@@ -1,4 +1,4 @@
-require('proof')(15, async (okay) => {
+require('proof')(16, async (okay) => {
     const Cubbyhole = require('..')
     const Future = require('perhaps')
     {
@@ -64,6 +64,7 @@ require('proof')(15, async (okay) => {
         const cubbyhole = new Cubbyhole
         cubbyhole.reject('x', new Error)
         await new Promise(resolve => setImmediate(resolve))
+        okay(cubbyhole.unawaited, [ 'x' ], 'unawaited')
     }
     {
         const cubbyhole = new Cubbyhole

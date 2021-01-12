@@ -26,6 +26,16 @@ class Cubbyhole {
         return unfulfilled
     }
 
+    get unawaited () {
+        const unawaited = []
+        for (const key in this._futures.map) {
+            if (! this._futures.map[key].vivified) {
+                unawaited.push(key)
+            }
+        }
+        return unawaited
+    }
+
     // An array of all the keys in the `Cubbyhole`.
     get keys () {
         return Object.keys(this._futures.map)
