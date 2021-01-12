@@ -1,4 +1,4 @@
-require('proof')(13, async (okay) => {
+require('proof')(15, async (okay) => {
     const Cubbyhole = require('..')
     const Future = require('perhaps')
     {
@@ -44,6 +44,7 @@ require('proof')(13, async (okay) => {
         okay(cubbyhole.unfulfilled, [ 'y' ], 'latched before destroyed')
         cubbyhole.destroy(Future.resolve(2))
         cubbyhole.resolve('x', 1)
+        cubbyhole.reject('y', new Error('reject'))
         okay(cubbyhole.unfulfilled, [], 'latched after destroyed')
         okay(cubbyhole.keys, [ 'x', 'y' ], 'keys after destroyed')
         okay(await promise, 2, 'get when destroyed resolves to destruction value')
@@ -63,5 +64,20 @@ require('proof')(13, async (okay) => {
         const cubbyhole = new Cubbyhole
         cubbyhole.reject('x', new Error)
         await new Promise(resolve => setImmediate(resolve))
+    }
+    {
+        const cubbyhole = new Cubbyhole
+        const promise = cubbyhole.get('y')
+        cubbyhole.destroy(Future.reject(new Error('reject')))
+        try {
+            await cubbyhole.get('x')
+        } catch (error) {
+            okay(error.message, 'reject', 'destroy with reject')
+        }
+        try {
+            await promise
+        } catch (error) {
+            okay(error.message, 'reject', 'resolve unfulfilled with reject')
+        }
     }
 })
