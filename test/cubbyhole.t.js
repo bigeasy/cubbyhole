@@ -1,6 +1,6 @@
 require('proof')(16, async (okay) => {
     const Cubbyhole = require('..')
-    const Future = require('perhaps')
+    const { Future } = require('perhaps')
     {
         const cubbyhole = new Cubbyhole
         cubbyhole.destroy()

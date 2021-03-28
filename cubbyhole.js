@@ -1,7 +1,7 @@
 const assert = require('assert')
 
 // Map that generates an entry if missing.
-const Future = require('perhaps')
+const { Future } = require('perhaps')
 const Vivifyer = require('vivifyer')
 
 //
