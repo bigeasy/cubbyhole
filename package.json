@@ -20,7 +20,7 @@
     },
     "dependencies":
     {
-                            "perhaps":                      "0.0.10",
+                            "perhaps":                      "0.0.11",
                             "vivifyer":                     "^2.0.1"
     },
     "devDependencies":
